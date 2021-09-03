@@ -1,4 +1,4 @@
-savings = 10000
+init_funds = 10000
 
 bill_list = [
     {

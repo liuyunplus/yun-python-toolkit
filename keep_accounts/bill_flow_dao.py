@@ -1,13 +1,16 @@
-import sqlite3
+import dbtools
+import common
+import setting
 
 
-def getConn():
-    conn = sqlite3.connect('database.db')
-    return conn
+def init_data():
+    dbtools.createTable()
+    for bill in setting.bill_list:
+        dbtools.insert_data(bill)
 
 
 def createTable():
-    conn = getConn()
+    conn = dbtools.getConn()
     cursor = conn.cursor()
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS bill_flow(
@@ -25,12 +28,10 @@ def createTable():
 
 
 def insert_data(data):
-    conn = getConn()
+    conn = dbtools.getConn()
     cursor = conn.cursor()
-    year, month, day = split_date(data['date'])
-    notes = None
-    if 'notes' in data:
-        notes = data['notes']
+    year, month, day = common.split_date(data['date'])
+    notes = common.get_dict_data(data, 'notes')
     sql = "insert into bill_flow (year, month, day, type, money, notes) values (?,?,?,?,?,?)"
     var = (year, month, day, data['type'], data['money'], notes)
     cursor.execute(sql, var)
@@ -39,34 +40,12 @@ def insert_data(data):
 
 
 def select_by_month(year, month):
-    conn = getConn()
+    conn = dbtools.getConn()
     cursor = conn.cursor()
     sql = "select * from bill_flow where year = ? and month = ?"
     var = (year, month)
     cursor.execute(sql, var)
-    line_list = cursor.fetchall()
+    data = dbtools.get_warp_data(cursor)
     conn.commit()
     conn.close()
-    if not line_list:
-        return []
-    data_list = []
-    for line in line_list:
-        data = {
-            "year": line[1],
-            "month": line[2],
-            "day": line[3],
-            "type": line[4],
-            "money": line[5],
-            "notes": line[6],
-        }
-        data_list.append(data)
-    return data_list
-
-
-def split_date(date):
-    list = date.split("-")
-    if len(list) == 2:
-        return int(list[0]), int(list[1])
-    elif len(list) == 3:
-        return int(list[0]), int(list[1]), int(list[2])
-
+    return data
