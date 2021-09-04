@@ -1,12 +1,5 @@
 import dbtools
 import common
-import setting
-
-
-def init_data():
-    dbtools.createTable()
-    for bill in setting.bill_list:
-        dbtools.insert_data(bill)
 
 
 def createTable():

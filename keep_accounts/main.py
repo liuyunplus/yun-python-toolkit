@@ -3,9 +3,15 @@ import bill_flow_dao
 import common
 
 
+def init_data():
+    bill_flow_dao.createTable()
+    for bill in setting.bill_list:
+        bill_flow_dao.insert_data(bill)
+
+
 def get_saving_list():
     saving = setting.init_funds
-    date_list = common.date_range("2021-08", "2022-09")
+    date_list = common.date_range("2021-09", "2022-07")
     for date in date_list:
         year, month = common.split_date(date)
         bill_list = bill_flow_dao.select_by_month(year, month)
@@ -17,4 +23,5 @@ def get_saving_list():
         print(date, saving)
 
 
+# init_data()
 get_saving_list()
