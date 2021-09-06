@@ -1,4 +1,6 @@
 init_funds = 10000
+start_month = "2021-08"
+end_month = "2022-09"
 
 bill_list = [
     {
