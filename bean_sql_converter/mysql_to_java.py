@@ -80,4 +80,4 @@ def generate_repository(table_name):
     print(content)
 
 
-main("t_activity_member")
+main("t_group_member_cashflow")
