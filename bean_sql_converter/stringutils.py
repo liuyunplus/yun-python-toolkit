@@ -16,3 +16,8 @@ def camel_to_snake(string):
     """ 驼峰转下滑线 """
     a = re.compile('((?<=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))')
     return a.sub(r'_\1', string).lower()
+
+
+def camel_to_title(string):
+    """ 驼峰转首字母大写 """
+    return string[0].upper() + string[1:]
