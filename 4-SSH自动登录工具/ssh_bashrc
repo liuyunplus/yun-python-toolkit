@@ -1,0 +1,44 @@
+if [ -f ~/.bashrc ]; then
+. ~/.bashrc
+fi
+
+####################################
+# 系统别名
+####################################
+alias ll='ls -alF'
+alias la='ls -A'
+alias c='clear'
+alias date='date +"%Y-%m-%d %H:%M:%S"'
+
+####################################
+# docker别名
+####################################
+dpsg(){ docker ps | grep $1; }
+dlogs(){ docker logs -f --tail=500 $1; }
+dexec(){ docker exec -it $1 bash; }
+darth(){ docker exec -it $1 /bin/bash -c 'java -jar /opt/arthas/arthas-boot.jar'; }
+djava(){ docker exec -it $1 /bin/bash -c 'ps -ef | grep java'; }
+ddump(){
+    filename="dumpfile"
+    workpath="/tmp"
+    docker exec -w $workpath $1 /bin/bash -c "\$JAVA_HOME/bin/jmap -dump:format=b,file=$filename $2";
+    docker cp $1:$workpath/$filename /tmp/;
+    docker exec -w $workpath $1 /bin/bash -c 'rm -rf $filename';
+}
+
+####################################
+# k8s别名
+####################################
+kns(){
+	kubectl get namespace $1 > /dev/null; 
+	if [ $? -eq 1 ]; then
+		echo "No Find Namespace: $1"
+		return $?;
+	fi;
+	kubectl config set-context $(kubectl config current-context) --namespace=$1;
+	echo "Namespace: $1"
+}
+kpods(){ kubectl get pods $1; }
+ksvc(){ kubectl get svc $1; }
+klogs(){ kubectl logs -f --tail=500 $1; }
+kexec(){ kubectl exec -it $1 bash; }

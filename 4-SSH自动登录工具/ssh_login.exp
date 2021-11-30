@@ -1,0 +1,18 @@
+#!/usr/bin/expect
+
+set host [lindex $argv 0]
+set username [lindex $argv 1]
+set password [lindex $argv 2]
+set bashrc [exec sh -c {cat ${HOME}/.tools/ssh_login/ssh_bashrc | base64 -w 0}]
+set timeout 30
+log_user 0
+
+spawn ssh $username@$host
+
+expect -re ".*password.*" { send "$password\r" }
+expect -re ".*$" { send "sudo su\r" }
+expect -re ".*password.*" { send "$password\r" }
+expect -re ".*#" { send "echo $bashrc | base64 --decode > /tmp/bashrc; bash --rcfile /tmp/bashrc; rm -rf /tmp/bashrc\r" }
+expect -re ".*#" { send "clear\r" }
+
+interact
