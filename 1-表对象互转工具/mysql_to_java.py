@@ -19,7 +19,7 @@ mysql_java_map = {
 
 
 def main(table_name):
-    db = pymysql.connect(host='172.16.103.106', port=3306, user='root', password='123456', database='vivid_meetup')
+    db = pymysql.connect(host='172.16.103.106', port=3306, user='root', password='123456', database='cloud_vicare')
     cursor = db.cursor()
     sql = "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = database() and TABLE_NAME = '{table_name}'".format(table_name=table_name)
     cursor.execute(sql)
@@ -80,4 +80,4 @@ def generate_repository(table_name):
     print(content)
 
 
-main("t_group_member_cashflow")
+main("t_gps_info")

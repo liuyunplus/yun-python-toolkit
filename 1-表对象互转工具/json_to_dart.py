@@ -1,15 +1,26 @@
 import json
 import stringutils
 
-class_name = "GroupEntity"
+class_name = "Activity"
 jsonStr = """
 {
+  "activityId": 1,
+  "activityName": "demoData",
+  "activityType": "demoData",
   "groupId": 1,
-  "groupName": "demoData",
-  "memberId": 1,
-  "memberName": "demoData",
-  "memberAvatar": "demoData",
-  "balance": 1.0
+  "creatorId": 1,
+  "creatorName": "demoData",
+  "applyStartTime": "2021/10/12, 5:29 下午",
+  "applyEndTime": "2021/10/12, 5:29 下午",
+  "activityStartTime": "2021/10/12, 5:29 下午",
+  "activityEndTime": "2021/10/12, 5:29 下午",
+  "activitySite": "demoData",
+  "activityContent": "demoData",
+  "limitNum": 1,
+  "applicantsNum": 1,
+  "activityStatus": 1,
+  "canRegister": true,
+  "canCancelRegister": true
 }
 """
 
