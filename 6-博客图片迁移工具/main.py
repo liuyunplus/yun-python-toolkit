@@ -74,18 +74,39 @@ source_image_folder = "/Users/yliu2/Public/Github/yun-blog-image"
 target_image_folder = "/Users/yliu2/Public/Github/yun-blog/source/_posts/image"
 
 
-def find_repo_image_redundancy():
+def scan_blog_image():
     # 列出图片仓库的所有图片
-    # image_list = list_all_files(target_image_folder)
-    # for image in image_list:
-    #     print(image)
-
+    image_list = list_all_files(target_image_folder)
     # 搜索博客文章的所有图片
     blog_image_map_list = list_all_blog_image(blog_folder)
     for blog_image_map in blog_image_map_list:
+        blog_name = blog_image_map["blogName"]
+        # 遍历每篇博客的图片链接
+        for image_url in blog_image_map["imageList"]:
+            # 获取博客图片名称
+            blog_image = os.path.basename(image_url)
+            if blog_image not in image_list:
+                print("\033[31m博客:%s 图片:%s 不存在\033[0m" % (blog_name, blog_image))
+            else:
+                print("博客:%s 图片:%s 存在" % (blog_name, blog_image))
+
+
+def scan_image_repo():
+    # 获取博客的所有图片
+    blog_image_map_list = list_all_blog_image(blog_folder)
+    blog_images = []
+    for blog_image_map in blog_image_map_list:
         for image_url in blog_image_map["imageList"]:
             blog_image = os.path.basename(image_url)
-            print(blog_image)
+            blog_images.append(blog_image)
+
+    # 列出图片仓库的所有图片
+    image_list = list_all_files(target_image_folder)
+    for image in image_list:
+        if image not in blog_images:
+            print("\033[31m图片:%s 不存在\033[0m" % image)
+        else:
+            print("图片:%s 存在" % image)
 
 
-find_repo_image_redundancy()
+scan_image_repo()
