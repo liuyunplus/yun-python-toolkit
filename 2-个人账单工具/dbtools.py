@@ -1,8 +1,8 @@
 import sqlite3
 
 
-def getConn():
-    conn = sqlite3.connect('database.db')
+def get_conn():
+    conn = sqlite3.connect('data.db')
     return conn
 
 

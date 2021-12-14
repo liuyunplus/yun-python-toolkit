@@ -3,7 +3,7 @@ import common
 
 
 def createTable():
-    conn = dbtools.getConn()
+    conn = dbtools.get_conn()
     cursor = conn.cursor()
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS bill_flow(
@@ -21,7 +21,7 @@ def createTable():
 
 
 def insert_data(data):
-    conn = dbtools.getConn()
+    conn = dbtools.get_conn()
     cursor = conn.cursor()
     year, month, day = common.split_date(data['date'])
     notes = common.get_dict_data(data, 'notes')
@@ -33,7 +33,7 @@ def insert_data(data):
 
 
 def select_by_month(year, month):
-    conn = dbtools.getConn()
+    conn = dbtools.get_conn()
     cursor = conn.cursor()
     sql = "select * from bill_flow where year = ? and month = ?"
     var = (year, month)
