@@ -1,5 +1,5 @@
 import json
-import stringutils
+from common import StringUtils
 
 class_name = "Activity"
 jsonStr = """
@@ -38,9 +38,9 @@ def build1(map):
         elif isinstance(value, float):
             format_str += "double? _{};\n".format(key)
         elif isinstance(value, dict):
-            format_str += "{0}? _{1};\n".format(stringutils.camel_to_title(key), key)
+            format_str += "{0}? _{1};\n".format(StringUtils.camel_to_title(key), key)
         elif isinstance(value, list):
-            format_str += "List<{0}>? _{1};\n".format(stringutils.camel_to_title(key), key)
+            format_str += "List<{0}>? _{1};\n".format(StringUtils.camel_to_title(key), key)
     return format_str.strip("\n")
 
 
@@ -62,7 +62,7 @@ def build2(map):
             str1 += "double? {},\n".format(key)
             str2 += "this._{0} = {0};\n".format(key)
         elif isinstance(value, dict):
-            str1 += "{0}? {1},\n".format(stringutils.camel_to_title(key), key)
+            str1 += "{0}? {1},\n".format(StringUtils.camel_to_title(key), key)
             str2 += "this._{0} = {0};\n".format(key)
     str1 = str1.strip('\n')
     str1 = str1.strip(',')
@@ -121,7 +121,7 @@ def build5(map):
         elif isinstance(value, float):
             format_str += "double? get {0} => this._{0};\n".format(key)
         elif isinstance(value, dict):
-            format_str += "{0}? get {1} => this._{1};\n".format(stringutils.camel_to_title(key), key)
+            format_str += "{0}? get {1} => this._{1};\n".format(StringUtils.camel_to_title(key), key)
     return format_str.strip("\n")
 
 

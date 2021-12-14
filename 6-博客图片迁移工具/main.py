@@ -2,7 +2,7 @@ import os.path
 import re
 import shutil
 import uuid
-import file_utils
+from common import FileUtils
 
 
 def list_all_files(base_folder):
@@ -66,12 +66,7 @@ def remove_and_replace():
             # 替换文件图片链接
             new_image_name = os.path.basename(new_image_path)
             print(blog_folder + "/" + blog_name, image_url, "image/" + new_image_name)
-            file_utils.replace(blog_folder + "/" + blog_name, image_url, "image/" + new_image_name)
-
-
-blog_folder = "/Users/yliu2/Public/Github/yun-blog/source/_posts"
-source_image_folder = "/Users/yliu2/Public/Github/yun-blog-image"
-target_image_folder = "/Users/yliu2/Public/Github/yun-blog/source/_posts/image"
+            FileUtils.replace(blog_folder + "/" + blog_name, image_url, "image/" + new_image_name)
 
 
 def scan_blog_image():
@@ -109,4 +104,7 @@ def scan_image_repo():
             print("图片:%s 存在" % image)
 
 
+blog_folder = "/Users/yliu2/Public/Github/yun-blog/source/_posts"
+source_image_folder = "/Users/yliu2/Public/Github/yun-blog-image"
+target_image_folder = "/Users/yliu2/Public/Github/yun-blog/source/_posts/image"
 scan_image_repo()

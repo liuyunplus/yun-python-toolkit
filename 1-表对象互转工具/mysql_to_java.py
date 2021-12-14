@@ -1,5 +1,5 @@
 import pymysql
-import stringutils
+from common import StringUtils
 import textwrap
 from jinja2 import Template
 
@@ -32,7 +32,7 @@ def main(table_name):
             continue
         data = {
             "column_name": column_name,
-            "field_name": stringutils.snake_to_camel(column_name),
+            "field_name": StringUtils.snake_to_camel(column_name),
             "field_type": mysql_java_map.get(column_type)
         }
         field_list.append(data)
@@ -43,7 +43,7 @@ def main(table_name):
 
 
 def generate_do(table_name, field_list):
-    class_name = stringutils.snake_to_pascal(table_name.replace("t_", "")) + "DO"
+    class_name = StringUtils.snake_to_pascal(table_name.replace("t_", "")) + "DO"
     tmpl = """
         import javax.persistence.Column;
         import javax.persistence.Entity;
@@ -64,7 +64,7 @@ def generate_do(table_name, field_list):
 
 
 def generate_repository(table_name):
-    class_name = stringutils.snake_to_pascal(table_name.replace("t_", ""))
+    class_name = StringUtils.snake_to_pascal(table_name.replace("t_", ""))
     repository_name = class_name + "Repository"
     dao_name = class_name + "DO"
     tmpl = """
