@@ -140,7 +140,7 @@ def generate_image_name(old_name):
     return new_name + suffix
 
 
-blog_folder = "/Users/yliu2/Public/Github/yun-blog-builder/blog"
-image_prefix = "https://raw.githubusercontent.com/liuyunplus/yun-blog-builder/main/blog/image/"
+blog_folder = "/Users/yliu2/Public/Github/yun-blog-builder/post"
+image_prefix = "https://raw.githubusercontent.com/liuyunplus/yun-blog-builder/main/post/image/"
 replace_image_prefix(blog_folder, image_prefix)
 
