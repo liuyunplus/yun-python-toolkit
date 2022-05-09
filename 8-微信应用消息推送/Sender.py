@@ -6,7 +6,7 @@ def getAccessToken():
         # 企业ID
         "corpid": "wwd5e52a75bfc03886",
         # 企业应用密钥
-        "corpsecret": ""
+        "corpsecret": "z2Mf85JF8xGFMNriDcT7Ac8X2Pz8H5W4Xx9KT3tI41A"
     }
     url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken"
     res = requests.get(url, params=params).json()
