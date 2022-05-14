@@ -1,9 +1,15 @@
 import sys
 sys.path.append("/opt/files/")
-from WXBizMsgCrypt3 import WXBizMsgCrypt
+import wx_sdk.WXBizMsgCrypt3 as WXBizMsgCrypt
 import xml.etree.cElementTree as ET
+import requests
+import json
 
-wxcpt = WXBizMsgCrypt('2OwU9Hw6aS', 'UhTmTvko505znCn2Jndob3wb73yc3rnNFvvZqoxXfSK', 'wwd5e52a75bfc03886')
+
+token = "2OwU9Hw6aS"
+encodingAESKey = "UhTmTvko505znCn2Jndob3wb73yc3rnNFvvZqoxXfSK"
+corpId = "wwd5e52a75bfc03886"
+wxcpt = WXBizMsgCrypt(token, encodingAESKey, corpId)
 params = {}
 data = {}
 
@@ -48,13 +54,43 @@ def getRespEncryptMsg(xmlTree, params, sMsg):
     return sEncryptMsg
 
 
+def getTuringResp(inputText):
+    params = {
+        "reqType": 0,
+        "perception": {
+            "inputText": {
+                "text": inputText
+            }
+        },
+        "userInfo": {
+            "apiKey": "ebaefc6cfa3a4d5cb38e3442bed15900",
+            "userId": "444056"
+        }
+    }
+    resp = requests.post("http://openapi.turingapi.com/openapi/api/v2", json=params)
+    data = json.loads(resp.text)
+    text = data["results"][0]["values"]["text"]
+    return text
+
+
+def getRespMsg(content):
+    if content == "刘运":
+        respMsg = "他很爱宋甜"
+    elif content == "宋甜":
+        respMsg = "她是刘运的小可爱^_^"
+    elif content == "宋甜是谁":
+        respMsg = "她是刘运的小可爱^_^"
+    elif content == "宋甜是谁?":
+        respMsg = "她是刘运的小可爱^_^"
+    else:
+        respMsg = getTuringResp(content)
+    return respMsg
+
+
 # 解析消息
 xmlTree = getXmlTree(params, data)
 content = xmlTree.find("Content").text
 
 # 回复消息
-if content == "刘运":
-    respMsg = "他很爱宋甜"
-else:
-    respMsg = "我收到消息啦"
+respMsg = getRespMsg(content)
 respEncryptMsg = getRespEncryptMsg(xmlTree, params, respMsg)
